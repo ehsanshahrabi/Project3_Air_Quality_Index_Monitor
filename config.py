@@ -1,0 +1,2 @@
+iqair_key = "be58078c-90ba-4d5f-8146-2341fa5ec773"
+waqi_key = "cfec51e63370e90b7880950705e8add14a2602b6"
