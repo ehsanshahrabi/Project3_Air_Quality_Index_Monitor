@@ -1,3 +1,11 @@
+// !!!SETUP INSTRUCTIONS!!!!
+// In order to run the queryURL below, you will need to import the database on mongoDB
+//  from the Creating_MongoDB.ipynb on the jupyternotebook. Then open your mongoDBcompass and
+// make sure you have an adequate amount of data. Thereafter, you run the MongoDB_Flask.py and open the 
+// database url below and makesure you see the database (same as mongocompass database). 
+// You can save changes on this file and access the index.html
+//  from the Project3_Air_Quality_Intex_Monitor folder 
+
 var queryURL = "http://127.0.0.1:5000/Database";
 
 d3.json(queryURL).then(function(data) {
