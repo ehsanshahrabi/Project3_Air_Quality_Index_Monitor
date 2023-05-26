@@ -123,6 +123,7 @@ client = MongoClient('mongodb://localhost:27017/')
 
 #Create a database
 db = client['major_cities_airq']
+print(db)
 
 
 # In[22]:
@@ -164,11 +165,20 @@ app = flask.Flask(__name__)
 
 
 # In[26]:
+@app.route("/")
+def welcome():
+    """List all available api routes."""
+    return (
+        f"Available Routes:<br/>"
+        f"/database<br/>"
+        f"/maps"
+        f"/graphs"
+    )
 
 
-@app.route("/add_one")
-def add_one():
-    collection.insert_one({
+@app.route("/database")
+def database():
+    collection.insert_many({
     'aqi': response_cities['data']['aqi'],
     'idx': response_cities['data']['idx'],
     'attributions': response_cities['data']['attributions'],
@@ -179,7 +189,7 @@ def add_one():
     'time': response_cities['data']['time'],
     'forecast': response_cities['data']['forecast']    
 })
-    return flask.jsonify(collection)
+    return flask.jsonify(message="success")
 
 
 # In[ ]:
