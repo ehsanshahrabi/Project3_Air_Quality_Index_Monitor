@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Data Page</title>
+  </head>
+  <body>
+    <h1>Data Page</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>AQI</th>
+          <th>City</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for entry in data %}
+        <tr>
+          <td>{{ entry.data.aqi }}</td>
+          <td>{{ entry.data.city.name }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
