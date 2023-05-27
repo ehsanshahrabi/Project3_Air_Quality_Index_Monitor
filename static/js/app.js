@@ -1,66 +1,77 @@
-// Fetching data from our API
-d3.json("/api/data").then(data => {
-    // Creating an array of all city names for our dropdown
-    var cityNames = Object.keys(data);
+let dropdownCity = d3.select("#citySelect");
+let dropdownPollutant = d3.select("#pollutantSelect");
+let plotsDiv = d3.select("#plots");
 
-    // Populating our dropdown with city names
-    var citySelect = d3.select("#citySelect");
-    cityNames.forEach(city => {
-        citySelect.append("option").text(city);
-    });
+// Define the pollutants excluding 'p'
+const pollutants = ['co', 'no2', 'o3', 'pm10', 'pm25', 'so2'];
+// Add options to the pollutant dropdown
+dropdownPollutant.append("option").text("All").property("value", "All");
+pollutants.forEach(pollutant => {
+    const capitalizedPollutant = pollutant.toUpperCase();
+    dropdownPollutant.append("option").text(capitalizedPollutant).property("value", pollutant);
+});
 
-    // Function to create plots for a given city
-    var createPlots = city => {
-        var cityData = data[city].data;
+// Get data
+d3.json("/data/aqi_data_ok_status.json").then(data => {
+    let cities = Object.keys(data).sort();  // Sort city names
+    cities.forEach(city => {
+        dropdownCity.append("option").text(city).property("value", city);
+    })
 
-        // Clearing any existing plots
-        d3.select("#plots").html("");
+    dropdownCity.on("change", updatePlots);
+    dropdownPollutant.on("change", updatePlots);
 
-        // Prepare pollutant data
-        var pollutants = cityData.iaqi;
-        delete pollutants.p;  // do not show "p" values in charts
+    function updatePlots() {
+        let selectedCity = dropdownCity.property("value");
+        let selectedPollutant = dropdownPollutant.property("value");
+        let cityData = data[selectedCity].data;
 
-        var names = Object.keys(pollutants);
-        var values = Object.values(pollutants).map(d => d.v);
+        if (cityData) {
+            plotsDiv.html("");  // Clear previous plots
 
-        // Create AQI bar chart
-        var aqiColor;
-        if (cityData.aqi <= 50) aqiColor = 'green';
-        else if (cityData.aqi <= 100) aqiColor = 'yellow';
-        else if (cityData.aqi <= 150) aqiColor = 'orange';
-        else aqiColor = 'red';
+            if (selectedPollutant !== 'All') {
+                let pollutantValue = cityData.iaqi[selectedPollutant]?.v;
+                if (pollutantValue !== undefined) {
+                    Plotly.newPlot("plots", [{
+                        x: [selectedPollutant],
+                        y: [pollutantValue],
+                        type: 'bar',
+                        marker: {
+                            color: pollutantValue <= 50 ? 'green' : pollutantValue <= 100 ? 'yellow' : pollutantValue <= 150 ? 'orange' : 'red'
+                        }
+                    }], {
+                        title: 'Air Quality Index',
+                        xaxis: { title: 'Pollutant' },
+                        yaxis: { title: 'Value' }
+                    });
+                } else {
+                    plotsDiv.html(`<p>No data available for pollutant ${selectedPollutant} in city ${selectedCity}.</p>`);
+                }
+            } else {
+                let xData = [];
+                let yData = [];
+                let colors = [];
 
-        var trace1 = {
-            x: ['AQI'],
-            y: [cityData.aqi],
-            type: 'bar',
-            marker: {
-                color: aqiColor
+                pollutants.forEach(pollutant => {
+                    let value = cityData.iaqi[pollutant]?.v;
+                    if (value !== undefined) {
+                        xData.push(pollutant);
+                        yData.push(value);
+                        colors.push(value <= 50 ? 'green' : value <= 100 ? 'yellow' : value <= 150 ? 'orange' : 'red');
+                    }
+                });
+
+                Plotly.newPlot("plots", [{
+                    x: xData,
+                    y: yData,
+                    type: 'bar',
+                    marker: { color: colors }
+                }], {
+                    title: 'Air Quality Index',
+                    xaxis: { title: 'Pollutant' },
+                    yaxis: { title: 'Value' }
+                });
             }
-        };
-        var layout1 = {
-            title: 'AQI'
-        };
-        Plotly.newPlot('plots', [trace1], layout1);
-
-        // Create pollutants bar chart
-        var trace2 = {
-            x: names,
-            y: values,
-            type: 'bar'
-        };
-        var layout2 = {
-            title: 'Pollutants'
-        };
-        Plotly.newPlot('plots', [trace2], layout2);
-    };
-
-    // Creating plots for the first city by default
-    createPlots(cityNames[0]);
-
-    // Updating plots whenever a different city is selected
-    citySelect.on("change", function () {
-        var selectedCity = this.value;
-        createPlots(selectedCity);
-    });
+        }
+    }
 });
