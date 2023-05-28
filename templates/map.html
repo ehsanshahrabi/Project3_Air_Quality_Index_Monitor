@@ -11,7 +11,6 @@
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
     <script>
         // Get the coordinates and metrics from Flask
         var data = {{ coordinates | tojson }};
@@ -27,25 +26,37 @@
             maxZoom: 18
         }).addTo(map);
 
-        // Create a heatmap layer
-        var heat = L.heatLayer(coordinates, {
-            radius: 25,
-            blur: 15,
-            max: Math.max(...metrics), // Adjust this based on your data
-            maxZoom: 18,
-            gradient: {
-                0.4: 'blue',
-                0.65: 'lime',
-                1: 'red'
+        // Define the color range for the metric
+        function getColor(metric) {
+            if (metric <= 20) {
+                return 'green';
+            } else if (metric <= 50) {
+                return 'yellow';
+            } else if (metric <= 80) {
+                return 'red';
+            } else if (metric <= 100) {
+                return 'red';
+            } else {
+                return 'brown';
             }
-        }).addTo(map);
+        }
 
-        // Add metric labels to the map
+        // Add markers to the map
         for (var i = 0; i < coordinates.length; i++) {
-            L.marker(coordinates[i]).bindTooltip(metrics[i].toString(), {
+            var coordinate = coordinates[i];
+            var metric = metrics[i];
+            var color = getColor(metric);
+
+            L.circle(coordinate, {
+                radius: 50000,  // 50km
+                color: color,
+                fillColor: color,
+                fillOpacity: 0.5
+            }).addTo(map).bindTooltip(metric.toString(), {
                 permanent: true,
-                direction: 'top'
-            }).addTo(map);
+                direction: 'top',
+                className: 'metric-label'
+            });
         }
     </script>
 </body>

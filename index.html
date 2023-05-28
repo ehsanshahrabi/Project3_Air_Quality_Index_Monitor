@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AQI Data Visualization</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .aqi-good {
+            background-color: #d4edda;
+        }
+
+        .aqi-moderate {
+            background-color: #ffeeba;
+        }
+
+        .aqi-unhealthy-sg {
+            background-color: #f5c6cb;
+        }
+
+        .aqi-unhealthy {
+            background-color: #f8d7da;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>AQI Data Dashboard</h2>
+                <div class="form-group">
+                    <label for="citySelect">Select a city:</label>
+                    <select id="citySelect" class="form-control"></select>
+                </div>
+                <div class="form-group">
+                    <label for="pollutantSelect">Select a pollutant:</label>
+                    <select id="pollutantSelect" class="form-control">
+                        <option value="">-- Select a pollutant --</option>
+
+                    </select>
+                </div>
+                <div id="plots"></div>
+            </div>
+            <div class="col-md-6">
+                <h2>Daily AQI Levels</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Daily AQI Color</th>
+                            <th>Levels of Concern</th>
+                            <th>Values of Index</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="aqi-good">
+                            <td>Green</td>
+                            <td>Good</td>
+                            <td>0 to 50</td>
+                        </tr>
+                        <tr class="aqi-moderate">
+                            <td>Yellow</td>
+                            <td>Moderate</td>
+                            <td>51 to 100</td>
+                        </tr>
+                        <tr class="aqi-unhealthy-sg">
+                            <td>Orange</td>
+                            <td>Unhealthy for Sensitive Groups</td>
+                            <td>101 to 150</td>
+                        </tr>
+                        <tr class="aqi-unhealthy">
+                            <td>Red</td>
+                            <td>Unhealthy</td>
+                            <td>151 to 200</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="static/app.js"></script>
+</body>
+
+</html>
