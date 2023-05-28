@@ -4,7 +4,27 @@
     <title>Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-        #map { height: 400px; }
+        #map { height: 800px; }
+        .legend {
+            line-height: 18px;
+            color: #555;
+            background-color: #fff;
+            padding: 6px 8px;
+            border-radius: 4px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            z-index: 1000;
+            width: 200px;
+        }
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
     </style>
 </head>
 <body>
@@ -20,7 +40,7 @@
         // Create the map
         var map = L.map('map').setView([51.505, -0.09], 13);
 
-        // Add a tile layer (e.g., OpenStreetMap)
+        // Add a tile layer (OpenStreetMap)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
             maxZoom: 18
@@ -28,18 +48,41 @@
 
         // Define the color range for the metric
         function getColor(metric) {
-            if (metric <= 20) {
+            if (metric <= 50) {
                 return 'green';
-            } else if (metric <= 50) {
-                return 'yellow';
-            } else if (metric <= 80) {
-                return 'red';
             } else if (metric <= 100) {
+                return 'yellow';
+            } else if (metric <= 150) {
+                return 'orange';
+            } else if (metric <= 200) {
                 return 'red';
+            } else if (metric <= 300) {
+                return 'purple';
             } else {
                 return 'brown';
             }
         }
+
+        // Create a legend
+        var legend = L.control({ position: 'bottomleft' });
+
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'legend');
+            var labels = ['Good', 'Moderate', 'Unhealthy for Sensitive Groups', 'Unhealthy', 'Very Unhealthy', 'Hazardous'];
+            var colors = ['green', 'yellow', 'orange', 'red', 'purple', 'brown'];
+
+            div.innerHTML = '<h4>Air Pollution Level</h4>'; // Add legend title
+
+            for (var i = 0; i < labels.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + colors[i] + '"></i> ' +
+                    labels[i] + '<br>';
+            }
+
+            return div;
+        };
+
+        legend.addTo(map);
 
         // Add markers to the map
         for (var i = 0; i < coordinates.length; i++) {
@@ -47,16 +90,18 @@
             var metric = metrics[i];
             var color = getColor(metric);
 
-            L.circle(coordinate, {
-                radius: 50000,  // 50km
-                color: color,
-                fillColor: color,
-                fillOpacity: 0.5
-            }).addTo(map).bindTooltip(metric.toString(), {
-                permanent: true,
-                direction: 'top',
-                className: 'metric-label'
-            });
+            if (metric !== "-") {
+                L.circle(coordinate, {
+                    radius: 50000,  // 50km
+                    color: color,
+                    fillColor: color,
+                    fillOpacity: 0.5
+                }).addTo(map).bindTooltip(metric.toString(), {
+                    permanent: true,
+                    direction: 'top',
+                    className: 'metric-label'
+                });
+            }
         }
     </script>
 </body>
