@@ -13,11 +13,6 @@ collection = db["air_quality_status"]
 app = flask.Flask(__name__,static_folder='.', static_url_path='')
 
 
-
-@app.route("/about")
-def about():
-    return render_template("about.html")
-
 @app.route('/map')
 def map_route():
     # Retrieve the data from the database
@@ -26,8 +21,6 @@ def map_route():
     
     # Pass the coordinates to the frontend
     return render_template('map.html', coordinates=coordinates)
-
-
 
 @app.route("/index")
 def index():
