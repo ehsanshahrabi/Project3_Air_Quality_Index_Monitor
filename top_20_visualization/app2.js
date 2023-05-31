@@ -47,9 +47,9 @@ let layout = {
     title: {
       text: "Top 20 Cities with Highest AQI",
       font: {
-        family: "Cambria",  // Fancy font
+        family: "Cambria",
         size: 24,
-        weight: "bold"      // Bold font weight
+        weight: "bold"
       },
       xref: "paper",
       x: 0.5,
@@ -65,32 +65,32 @@ let layout = {
       title: {
         text: "AQI Value",
         font: {
-          family: "Cambria",  // Fancy font
+          family: "Cambria",
           size: 16,
           color: "#555555",
-          weight: "bold"      // Bold font weight
+          weight: "bold"
         }
       },
       tickfont: {
-        family: "Cambria",  // Fancy font
+        family: "Cambria",
         size: 12,
-        weight: "bold"      // Bold font weight
+        weight: "bold"      
       }
     },
     xaxis: {
       title: {
         text: "Major City",
         font: {
-          family: "Cambria",  // Fancy font
+          family: "Cambria",
           size: 16,
           color: "#555555",
-          weight: "bold"      // Bold font weight
+          weight: "bold"
         }
       },
       tickfont: {
-        family: "Cambria",  // Fancy font
+        family: "Cambria",
         size: 12,
-        weight: "bold"      // Bold font weight
+        weight: "bold"
       },
       autorange: "reversed"
     },
