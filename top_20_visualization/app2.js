@@ -20,23 +20,19 @@ let trace1 = {
   marker: {
     color: reversedData.map(city => {
       if (city.aqi >= 0 && city.aqi <= 50) {
-        return "rgb(0, 128, 0)";   // Green
+        return "#61d17d";   // Green
       } else if (city.aqi <= 100) {
-        return "rgb(255, 255, 0)"; // Yellow
+        return "#f3f367"; // Yellow
       } else if (city.aqi <= 150) {
-        return "rgb(255, 165, 0)"; // Orange
+        return "#f5cb6a"; // Orange
       } else if (city.aqi <= 200) {
-        return "rgb(255, 0, 0)";   // Red
+        return "#eb505c";   // Red
       } else if (city.aqi <= 300) {
-        return "rgb(128, 0, 128)"; // Purple
+        return "#79528d"; // Purple
       } else {
-        return "rgb(128, 0, 0)";   // Maroon
+        return "#794553";   // Maroon
       }
     }),
-    line: {
-      color: "black",  // Black outline color
-      width: 1.5      // Outline width
-    }
   }
 };
 
@@ -44,60 +40,59 @@ let traceData = [trace1];
 
 // Configure layout for the plot
 let layout = {
+  title: {
+    text: "<b>Top 20 Cities with Highest AQI</b>",
+    font: {
+      family: "sans-serif",
+      size: 24,
+      weight: "bold"
+    },
+    xref: "paper",
+    x: 0.5,
+    y: 0.95
+  },
+  margin: {
+    l: 100,
+    r: 100,
+    t: 100,
+    b: 100
+  },
+  yaxis: {
     title: {
-      text: "Top 20 Cities with Highest AQI",
+      text: "AQI Value",
       font: {
-        family: "Cambria",
-        size: 24,
+        family: "sans-serif",
+        size: 16,
+        color: "#555555",
         weight: "bold"
-      },
-      xref: "paper",
-      x: 0.5,
-      y: 0.95
-    },
-    margin: {
-      l: 100,
-      r: 100,
-      t: 100,
-      b: 100
-    },
-    yaxis: {
-      title: {
-        text: "AQI Value",
-        font: {
-          family: "Cambria",
-          size: 16,
-          color: "#555555",
-          weight: "bold"
-        }
-      },
-      tickfont: {
-        family: "Cambria",
-        size: 12,
-        weight: "bold"      
       }
     },
-    xaxis: {
-      title: {
-        text: "Major City",
-        font: {
-          family: "Cambria",
-          size: 16,
-          color: "#555555",
-          weight: "bold"
-        }
-      },
-      tickfont: {
-        family: "Cambria",
-        size: 12,
+    tickfont: {
+      family: "sans-serif",
+      size: 12,
+      weight: "bold"      
+    }
+  },
+  xaxis: {
+    title: {
+      text: "Major City",
+      font: {
+        family: "sans-serif",
+        size: 16,
+        color: "#555555",
         weight: "bold"
-      },
-      autorange: "reversed"
+      }
     },
-    plot_bgcolor: "#f7f7f7",
-    paper_bgcolor: "#ffffff"
-  };
-  
+    tickfont: {
+      family: "sans-serif",
+      size: 12,
+      weight: "bold"
+    },
+    autorange: "reversed"
+  },
+};
 
 // Render the plot to the div tag with id "plot"
 Plotly.newPlot("plot", traceData, layout);
+
+
