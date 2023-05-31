@@ -90,9 +90,11 @@ let layout = {
     },
     autorange: "reversed"
   },
+  height: 600 // Adjust the height of the bar chart as desired
 };
 
 // Render the plot to the div tag with id "plot"
 Plotly.newPlot("plot", traceData, layout);
+
 
 
