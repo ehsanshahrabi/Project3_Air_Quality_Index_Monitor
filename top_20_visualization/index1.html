@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Top 20 Countries</title>
+    <style>
+        #plot {
+            margin-bottom: 40px; /* Add space between the chart and the image */
+        }
+        #table-image {
+            width: 400px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="aqi_data_ok_status.json"></script>
+</head>
+<body>
+    <div id="plot"></div>
+    <img id="table-image" src="table.png" alt="Table Image">
+    <script src="app2.js"></script>
+</body>
+</html>
