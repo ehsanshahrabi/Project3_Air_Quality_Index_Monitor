@@ -1,10 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Map</title>
+    <title>Map - Air Pollution</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-        #map { height: 800px; }
+        /* CSS styles */
+        #title {
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            font-size: 48px;
+            color: #ff6f00;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        #subtitle {
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            font-size: 18px;
+            font-weight: 400;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        #map {
+            height: 800px;
+        }
         .legend {
             line-height: 18px;
             color: #555;
@@ -28,6 +48,9 @@
     </style>
 </head>
 <body>
+    <h1 id="title">Air Pollution in the Major Cities of the World</h1>
+    <p id="subtitle">Welcome to the Air Pollution Map! Explore the pollution levels in various cities and have some fun!</p>
+
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
