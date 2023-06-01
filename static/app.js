@@ -1,180 +1,181 @@
-let dropdownCity = d3.select("#citySelect");
-let dropdownPollutant = d3.select("#pollutantSelect");
-let plotsDiv = d3.select("#plots");
-let view2Div = d3.select("#view2");
+let dropdownCity = d3.selectAll("#citySelect");
+let dropdownSorted = d3.selectAll("#sortSelect");
+let plotsDiv = d3.selectAll("#plots");
+let view2Div = d3.selectAll("#view2");
 
-// Define the pollutants
-const pollutants = ['o3', 'pm10', 'pm25']; // Updated the pollutants
-// Add options to the pollutant dropdown
-dropdownPollutant.append("option").text("All").property("value", "All");
-pollutants.forEach(pollutant => {
-    const capitalizedPollutant = pollutant.toUpperCase();
-    dropdownPollutant.append("option").text(capitalizedPollutant).property("value", pollutant);
-});
+// Function to sort cities based on the selected sorting option
+function sortCities(data, sortOption) {
+    let cities = Object.keys(data);
+    switch (sortOption) {
+        case "pollutedToCleanest":
+            cities.sort((a, b) => data[b].data.aqi - data[a].data.aqi);
+            break;
+        case "cleanestToPolluted":
+            cities.sort((a, b) => data[a].data.aqi - data[b].data.aqi);
+            break;
+        case "aToZ":
+            cities.sort();
+            break;
+        case "zToA":
+            cities.sort().reverse();
+            break;
+        default:
+            cities.sort();
+            break;
+    }
+    return cities;
+}
 
 // Get data
-d3.json("/data/aqi_data_ok_status.json").then(data => {
-    let cities = Object.keys(data).sort();  // Sort city names
-    cities.forEach(city => {
-        dropdownCity.append("option").text(city).property("value", city);
-    })
+d3.json("/data/aqi_data_ok_status.json").then((data) => {
+    let cities = sortCities(data, dropdownSorted.property("value")); // Sort cities based on the selected sorting option
 
-    dropdownCity.on("change", updatePlots);
-    dropdownPollutant.on("change", updatePlots);
+    cities.forEach((city) => {
+        dropdownCity.append("option").text(city).property("value", city);
+    });
+
+    dropdownCity.on("change", () => {
+        updatePlots();
+        createView2();
+    });
+
+    dropdownSorted.on("change", () => {
+        let sortOption = dropdownSorted.property("value");
+        cities = sortCities(data, sortOption); // Sort cities based on the selected sorting option
+        dropdownCity.html(""); // Clear previous city options
+        cities.forEach((city) => {
+            dropdownCity.append("option").text(city).property("value", city);
+        });
+        updatePlots();
+        createView2();
+    });
 
     function updatePlots() {
         let selectedCity = dropdownCity.property("value");
-        let selectedPollutant = dropdownPollutant.property("value");
         let cityData = data[selectedCity].data;
 
         if (cityData) {
-            plotsDiv.html("");  // Clear previous plots
+            plotsDiv.html(""); // Clear previous plots
 
-            if (selectedPollutant !== 'All') {
-                let pollutantData = cityData.forecast.daily[selectedPollutant];
-                if (pollutantData) {
-                    let lastPollutantData = pollutantData[pollutantData.length - 1]; // get last data
-                    let avgValue = lastPollutantData.avg;
+            let iaqiData = cityData.iaqi;
+            let pollutantKeys = Object.keys(iaqiData).filter(
+                (key) => !["h", "p", "t", "w", "dew", "wg", "wd", "r", "d"].includes(key)
+            );
+            let pollutantValues = pollutantKeys.map((key) => iaqiData[key].v);
+            let colorValues = pollutantValues.map((value) => {
+                if (value <= 50) return "#61d17d";
+                if (value <= 100) return "#f3f367";
+                if (value <= 150) return "#f5cb6a";
+                if (value <= 200) return "#eb505c";
+                if (value <= 300) return "#79528d";
+                return "#794553";
+            });
 
-                    Plotly.newPlot("plots", [{
-                        x: [selectedPollutant],
-                        y: [avgValue],
-                        type: 'bar',
-                        marker: {
-                            color: avgValue <= 50 ? '#61d17d' : avgValue <= 100 ? '#f3f367' : avgValue <= 150 ? '#f5cb6a' : '#f04856'
-                        }
-                    }], {
-                        title: 'Air Quality Index - View 1',
-                        xaxis: { title: 'Pollutant' },
-                        yaxis: { title: 'Value' }
-                    });
-                } else {
-                    plotsDiv.html(`<p>No data available for pollutant ${selectedPollutant} in city ${selectedCity}.</p>`);
-                }
-            } else {
-                let xData = [];
-                let yData = [];
-                let colors = [];
+            let plotData = {
+                x: pollutantKeys,
+                y: pollutantValues,
+                type: "bar",
+                marker: { color: colorValues },
+            };
 
-                pollutants.forEach(pollutant => {
-                    let pollutantData = cityData.forecast.daily[pollutant];
-                    if (pollutantData) {
-                        let lastPollutantData = pollutantData[pollutantData.length - 1]; // get last data
-                        let avgValue = lastPollutantData.avg;
+            let layout = {
+                title: `Current Air Quality Index - ${selectedCity}`, // Update the plot title with the selected city
+                xaxis: { title: "Pollutant" },
+                yaxis: { title: "Value" },
+            };
 
-                        xData.push(pollutant);
-                        yData.push(avgValue);
-                        colors.push(avgValue <= 50 ? '#61d17d' : avgValue <= 100 ? '#f3f367' : avgValue <= 150 ? '#f5cb6a' : '#f04856');
-                    }
-                });
-
-                Plotly.newPlot("plots", [{
-                    x: xData,
-                    y: yData,
-                    type: 'bar',
-                    marker: { color: colors }
-                }], {
-                    title: 'Air Quality Index - View 1',
-                    xaxis: { title: 'Pollutant' },
-                    yaxis: { title: 'Value' }
-                });
-            }
+            Plotly.newPlot("plots", [plotData], layout);
         }
     }
 
-
-    // Additional View 2
     function createView2() {
         let selectedCity = dropdownCity.property("value");
         let cityData = data[selectedCity].data;
 
         if (cityData) {
-            view2Div.html("");  // Clear previous content
+            view2Div.html(""); // Clear previous content
 
             let dailyAQIData = cityData.forecast.daily;
-            let pm25Data = dailyAQIData.pm25;
-            let pm10Data = dailyAQIData.pm10;
+            let pm25maxData = dailyAQIData.pm25;
+            let pm25minData = dailyAQIData.pm25;
 
-            let xData = pm25Data.map(d => d.day);
-            let pm25Values = pm25Data.map(d => d.avg);
-            let pm10Values = pm10Data.map(d => d.avg);
+            let xData = pm25maxData.map((d) => d.day);
+            let pm25maxValues = pm25maxData.map((d) => d.max);
+            let pm25minValues = pm25minData.map((d) => d.min);
 
             let trace1 = {
                 x: xData,
-                y: pm25Values,
-                type: 'scatter',
-                mode: 'markers+lines', // Add 'markers+' to include dots
-                name: 'PM2.5',
-                line: { color: 'blue' },
-                marker: { size: 5 } // Set the size of the dots
+                y: pm25maxValues,
+                type: "scatter",
+                mode: "lines", // Use 'lines' mode instead of 'markers+lines'
+                name: "PM2.5-Max",
+                line: { color: "blue" },
             };
 
             let trace2 = {
                 x: xData,
-                y: pm10Values,
-                type: 'scatter',
-                mode: 'markers+lines', // Add 'markers+' to include dots
-                name: 'PM10',
-                line: { color: 'green' },
-                marker: { size: 5 } // Set the size of the dots
+                y: pm25minValues,
+                type: "scatter",
+                mode: "lines", // Use 'lines' mode instead of 'markers+lines'
+                name: "PM2.5-Min",
+                line: { color: "green" },
             };
 
             let layout = {
-                title: 'Daily AQI Levels - View 2',
+                title: "Forecast PM2.5 Maximun and Minimum",
                 xaxis: {
-                    title: 'Date',
-                    tickformat: '%Y-%m-%d' // Set the tick format to display only the date
+                    title: "Date",
+                    tickformat: "%Y-%m-%d", // Set the tick format to display only the date
                 },
-                yaxis: { title: 'Average AQI Value' },
+                yaxis: { title: "Average AQI Value" },
                 width: 800, // Set the desired width for the plot
                 margin: {
                     l: 50,
                     r: 50,
                     t: 50,
-                    b: 50
+                    b: 50,
                 },
                 shapes: [
                     // Add four horizontal lines with pollutantValue color and range
                     {
-                        type: 'line',
+                        type: "line",
                         x0: xData[0],
                         x1: xData[xData.length - 1],
                         y0: 2,
                         y1: 2,
-                        line: { color: '#3DC95E', width: 2, dash: 'dash' }
+                        line: { color: "#3DC95E", width: 2, dash: "dash" },
                     },
                     {
-                        type: 'line',
+                        type: "line",
                         x0: xData[0],
                         x1: xData[xData.length - 1],
                         y0: 51,
                         y1: 51,
-                        line: { color: '#FDFD6F', width: 2, dash: 'dash' }
+                        line: { color: "#FDFD6F", width: 2, dash: "dash" },
                     },
                     {
-                        type: 'line',
+                        type: "line",
                         x0: xData[0],
                         x1: xData[xData.length - 1],
                         y0: 101,
                         y1: 101,
-                        line: { color: '#FFC43B', width: 2, dash: 'dash' }
+                        line: { color: "#FFC43B", width: 2, dash: "dash" },
                     },
                     {
-                        type: 'line',
+                        type: "line",
                         x0: xData[0],
                         x1: xData[xData.length - 1],
                         y0: 151,
                         y1: 151,
-                        line: { color: '#FE4B5A', width: 2, dash: 'dash' }
-                    }
-                ]
+                        line: { color: "#FE4B5A", width: 2, dash: "dash" },
+                    },
+                ],
             };
 
-            Plotly.newPlot("view2", [trace1, trace2], layout);
+            Plotly.newPlot("view2", [trace1, trace2], layout); // Call Plotly.newPlot after setting layout and traces
         }
     }
 
-    dropdownCity.on("change", createView2);
-
-
+    updatePlots();
+    createView2();
 });
