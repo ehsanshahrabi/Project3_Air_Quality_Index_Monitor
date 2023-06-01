@@ -76,15 +76,25 @@ Overall, this HTML template uses JavaScript and the Leaflet library to render a 
 ### Visualizing the Second and Third Views
  
 1- For visualizing the air quality data, the app.js file uses D3.js and Plotly.js libraries. It displays current air quality index and a forecast for PM2.5 maximum and minimum values.
+ 
 2- The following functionality is provided by the code:
+ 
 3- The sortCities function sorts cities based on the selected option.
+ 
 4- The updatePlots function updates plots based on the selected city.
+ 
 5- The createView2 function creates the view for the forecast of PM2.5 maximum and minimum values.
+ 
 6- Event listeners are set up for changes in the city selection and sorting option.
+ 
 7- The d3.json function retrieves the air quality data from the JSON file.
+ 
 8- The retrieved data populates the dropdown menus with city options.
+ 
 9- The updatePlots and createView2 functions are called initially and whenever the city selection or sorting option changes.
+ 
 10- Plotly.js library is used to create the plots and display them in the designated <div> elements in the HTML.
+ 
 In addition, the code also provides a table displaying daily AQI levels.
 
 
