@@ -1,5 +1,10 @@
 
 # Project3
+### Description
+This project aims to create a web application for visualizing air quality data. It utilizes Flask, MongoDB, and JavaScript libraries, namely Leaflet, D3.js, and Plotly.js. The application retrieves air quality data from an external source, stores it in a MongoDB database and a JSON file, then provides interactive visualizations.
+Scraping City Names.
+
+### Scrape city names:
 1.  Sends a GET request to the website "https://aqicn.org/city/all/" using the requests.get().
 2. Creates a BeautifulSoup object named soup to parse the HTML content of the response. 
 3. Finds a specific ``<div>`` element with the class ``main-cities`` using the ``find()`` method on the soup object. This locates the container that holds the desired information.
@@ -15,6 +20,7 @@
 3. Defines two base URLs: ``base_url_cities_1`` and ``base_url_cities_0``. These URLs will be used to construct the *API endpoint* URLs for retrieving air quality data for each city. 
 4. Iterates over each city in ``cities_list`` and constructs the complete API URL using the base URLs and the city name. Sends a GET request to the constructed URL using ``requests.get()``, and parses the response as JSON using ``.json()``.
 5. Checks if the response status is "ok" using ``response_cities['status']``. If it is, inserts the response data into the MongoDB collection using collection.insert_one(response_cities).
+6. With the data_extract.ipynb code, generate a JSON file mimicking a MongoDB database structure, facilitating visualization for the Second and Third Views.
 
 ### Setting up the Flask web application. 
  Here we set up a Flask web application that interacts with a MongoDB database to retrieve air quality data and display it on a map.
@@ -66,6 +72,20 @@ In summary, this code sets up a Flask application with three routes: ``/map``, `
     5.11 Closing Tags: The closing </script>, </body>, and </html> tags complete the HTML document.
 
 Overall, this HTML template uses JavaScript and the Leaflet library to render a map and visualize air quality data using circle markers and a legend. The data is obtained from Flask and dynamically displayed on the map based on the pollution level.
+
+### Visualizing the Second and Third Views
+ 
+1- For visualizing the air quality data, the app.js file uses D3.js and Plotly.js libraries. It displays current air quality index and a forecast for PM2.5 maximum and minimum values.
+2- The following functionality is provided by the code:
+3- The sortCities function sorts cities based on the selected option.
+4- The updatePlots function updates plots based on the selected city.
+5- The createView2 function creates the view for the forecast of PM2.5 maximum and minimum values.
+6- Event listeners are set up for changes in the city selection and sorting option.
+7- The d3.json function retrieves the air quality data from the JSON file.
+8- The retrieved data populates the dropdown menus with city options.
+9- The updatePlots and createView2 functions are called initially and whenever the city selection or sorting option changes.
+10- Plotly.js library is used to create the plots and display them in the designated <div> elements in the HTML.
+In addition, the code also provides a table displaying daily AQI levels.
 
 
 
