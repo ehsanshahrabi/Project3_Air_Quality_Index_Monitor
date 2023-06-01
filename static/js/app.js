@@ -1,3 +1,4 @@
+// Selecting DOM elements
 let dropdownCity = d3.selectAll("#citySelect");
 let dropdownSorted = d3.selectAll("#sortSelect");
 let plotsDiv = d3.selectAll("#plots");
@@ -34,11 +35,13 @@ d3.json("/data/aqi_data_ok_status.json").then((data) => {
         dropdownCity.append("option").text(city).property("value", city);
     });
 
+    // Event listener for city selection change
     dropdownCity.on("change", () => {
         updatePlots();
         createView2();
     });
 
+    // Event listener for sorting option change
     dropdownSorted.on("change", () => {
         let sortOption = dropdownSorted.property("value");
         cities = sortCities(data, sortOption); // Sort cities based on the selected sorting option
@@ -50,6 +53,7 @@ d3.json("/data/aqi_data_ok_status.json").then((data) => {
         createView2();
     });
 
+    // Function to update the plots based on the selected city
     function updatePlots() {
         let selectedCity = dropdownCity.property("value");
         let cityData = data[selectedCity].data;
@@ -88,6 +92,7 @@ d3.json("/data/aqi_data_ok_status.json").then((data) => {
         }
     }
 
+    // Function to create view 2 based on the selected city
     function createView2() {
         let selectedCity = dropdownCity.property("value");
         let cityData = data[selectedCity].data;
@@ -122,7 +127,7 @@ d3.json("/data/aqi_data_ok_status.json").then((data) => {
             };
 
             let layout = {
-                title: "Forecast PM2.5 Maximun and Minimum",
+                title: "Forecast PM2.5 Maximum and Minimum",
                 xaxis: {
                     title: "Date",
                     tickformat: "%Y-%m-%d", // Set the tick format to display only the date
@@ -176,6 +181,6 @@ d3.json("/data/aqi_data_ok_status.json").then((data) => {
         }
     }
 
-    updatePlots();
-    createView2();
+    updatePlots(); // Initial plot update
+    createView2(); // Initial view2 creation
 });
