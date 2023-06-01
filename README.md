@@ -1,9 +1,26 @@
-# Project3_Book_Reviews - ehsan branch
-**data_extract.ipynb:
-In data_extract.ipynb, we have implemented a procedure to scrape the names of 534 cities from https://aqicn.org/city/all/ using BeautifulSoup. Subsequent cleaning of the data was performed with Regex to ensure uniformity and accuracy.
+### AQI Data Visualization Web Application - ehsan branch
+This web application visualizes the Air Quality Index (AQI) of cities around the world based on data collected from the World Air Quality Index Project (https://aqicn.org/).
+The web app allows users to select a city and view the current AQI, along with a forecast of PM2.5 Max and Min. The cities can be sorted alphabetically, from cleanest to most polluted, and vice versa.
 
-Once the data was clean, we initiated a request to retrieve data from the api.waqi.info/feed, iterating this process for each city.
+### Structure
+The project is structured as follows:
 
-After obtaining the data, we saved it to a JSON file. In the final step, we performed another round of cleaning on the JSON file, ensuring that only entries with status: 'ok' remained in our dataset.
+app.js: This JavaScript file handles all the front-end logic. This includes fetching the AQI data, handling user interaction, and creating the visualization using D3.js and Plotly.js.
 
-This process guarantees that the collected data is of high quality and ready for subsequent analysis or usage.
+index.html: This is the main HTML file which provides the structure of the web page. It includes the layout and the DOM elements that app.js manipulates.
+
+app.py: This is the Python Flask server that serves the index.html file and provides an API endpoint to access the AQI data.
+
+### Data Collection and Cleaning
+The data was scraped from the World Air Quality Index Project using BeautifulSoup. After scraping the data, extensive cleaning was performed to ensure accuracy and uniformity. We removed any entries from the dataset that had a status other than 'ok', ensuring high quality of the data. Once cleaned, the data was saved into a JSON file aqi_data_ok_status.json, ready to be consumed by the Flask server and the front-end.
+
+## Working
+The application allows the user to select a city and a sorting method from the dropdown lists in the webpage. Based on the selection, two visualizations are updated. 
+
+1. **Current Air Quality Index**: A bar plot representing the current AQI values of pollutants for the selected city.
+
+2. **Forecast For PM2.5 Max and Min**: A line plot representing the forecasted maximum and minimum PM2.5 levels for the selected city.
+
+Note
+This project is for educational purposes only and does not provide real-time AQI data. For real-time data, please refer to the official AQI website or other reliable resources.
+
