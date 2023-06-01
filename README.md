@@ -1,3 +1,4 @@
+
 # Project3
 1.  Sends a GET request to the website "https://aqicn.org/city/all/" using the requests.get().
 2. Creates a BeautifulSoup object named soup to parse the HTML content of the response. 
@@ -65,7 +66,6 @@ In summary, this code sets up a Flask application with three routes: ``/map``, `
     5.11 Closing Tags: The closing </script>, </body>, and </html> tags complete the HTML document.
 
 Overall, this HTML template uses JavaScript and the Leaflet library to render a map and visualize air quality data using circle markers and a legend. The data is obtained from Flask and dynamically displayed on the map based on the pollution level.
-
 
 
 
