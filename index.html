@@ -29,6 +29,14 @@
             background-color: #eb505c;
         }
 
+        .aqi-unhealthy-very {
+            background-color: #79528d;
+        }
+
+        .aqi-hazardous {
+            background-color: #794553;
+        }
+
         .container {
             margin-top: 20px;
         }
@@ -54,21 +62,24 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <h2>AQI Data Visualization - View 1</h2>
+                <h3>Current Air Quality Index</h3>
+                <div class="form-group">
+                    <label for="sortSelect">Sort by:</label>
+                    <select id="sortSelect" class="form-control">
+                        <option value="pollutedToCleanest">Polluted to Cleanest</option>
+                        <option value="cleanestToPolluted">Cleanest to Polluted</option>
+                        <option value="aToZ">A to Z</option>
+                        <option value="zToA">Z to A</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="citySelect">Select a city:</label>
                     <select id="citySelect" class="form-control"></select>
                 </div>
-                <div class="form-group">
-                    <label for="pollutantSelect">Select a pollutant:</label>
-                    <select id="pollutantSelect" class="form-control">
-                        <option value="">-- Select a pollutant --</option>
-                    </select>
-                </div>
                 <div id="plots"></div>
             </div>
             <div class="col-md-6">
-                <h2>AQI Data Visualization - View 2</h2>
+                <h3>Forecast For PM2.5 Max and Min</h3>
                 <div id="view2"></div>
             </div>
         </div>
@@ -106,6 +117,16 @@
                             <td>Red</td>
                             <td>Unhealthy</td>
                             <td>151 to 200</td>
+                        </tr>
+                        <tr class="aqi-unhealthy-very">
+                            <td>Purple</td>
+                            <td>Very Unhealthy</td>
+                            <td>201 to 300</td>
+                        </tr>
+                        <tr class="aqi-hazardous">
+                            <td>Brown</td>
+                            <td>Hazardous</td>
+                            <td>300+</td>
                         </tr>
                     </tbody>
                 </table>

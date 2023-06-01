@@ -26,6 +26,10 @@ def map_route():
 def index():
     return app.send_static_file('index.html')
 
+@app.route("/index1")
+def index1():
+    return app.send_static_file('index1.html')
+
 @app.route("/")
 def home():
     

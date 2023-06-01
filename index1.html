@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Top 20 Cities</title>
+    <style>
+        #plot {
+            margin-bottom: 40px; /* Add space between the chart and the image */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        #table-image {
+            width: 400px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .aqi-good {
+            background-color: #61d17d;
+        }
+
+        .aqi-moderate {
+            background-color: #f3f367;
+        }
+
+        .aqi-unhealthy-sg {
+            background-color: #f5cb6a;
+        }
+
+        .aqi-unhealthy {
+            background-color: #eb505c;
+        }
+
+        .aqi-unhealthy-very {
+            background-color: #79528d;
+        }
+
+        .aqi-hazardous {
+            background-color: #794553;
+        }
+        .chart-container {
+            text-align: center;
+        }
+        .chart-container h2 {
+            margin-bottom: 20px;
+        }
+        .table-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .table-container table {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            margin: 0 auto;
+            width: 80%;
+            font-size: 16px;
+        }
+        .table-container table td {
+            padding: 15px 20px; /* Adjust padding for thicker rows */
+        }
+        .table-container h2 {
+            margin-bottom: 10px;
+        }
+    </style>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="static/aqi_data_ok_status.json"></script>
+</head>
+<body>
+    <div class="chart-container">
+        <div id="plot"></div>
+    </div>
+    <div class="table-container">
+        <h2>AQI Levels</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Daily AQI Color</th>
+                    <th>Levels of Concern</th>
+                    <th>Values of Index</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="aqi-good">
+                    <td>Green</td>
+                    <td>Good</td>
+                    <td>0 to 50</td>
+                </tr>
+                <tr class="aqi-moderate">
+                    <td>Yellow</td>
+                    <td>Moderate</td>
+                    <td>51 to 100</td>
+                </tr>
+                <tr class="aqi-unhealthy-sg">
+                    <td>Orange</td>
+                    <td>Unhealthy for Sensitive Groups</td>
+                    <td>101 to 150</td>
+                </tr>
+                <tr class="aqi-unhealthy">
+                    <td>Red</td>
+                    <td>Unhealthy</td>
+                    <td>151 to 200</td>
+                </tr>
+                <tr class="aqi-unhealthy-very">
+                    <td>Purple</td>
+                    <td>Very Unhealthy</td>
+                    <td>201 to 300</td>
+                </tr>
+                <tr class="aqi-hazardous">
+                    <td>Brown</td>
+                    <td>Hazardous</td>
+                    <td>300+</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="static/app2.js"></script>
+</body>
+</html>
+
