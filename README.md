@@ -43,6 +43,8 @@ Scraping City Names.
 In summary, this code sets up a Flask application with three routes: ``/map``, ``/index``, and ``/``. The ``/map`` route retrieves `*air quality data from a MongoDB database*, formats it as coordinates, and passes it to the ``map.html`` template. The ``/index`` route returns the ``index.html`` file, and the ``/`` route renders the ``home.html`` template.
 
 ### Visualizing our map
+![map](https://github.com/ehsanshahrabi/Project3_Air_Quality_Index_Monitor/assets/124327258/76b62f24-1061-4bab-9d0b-82a46415389b)
+
 1. HTML Structure: The code defines the basic structure of an HTML document using <html>, <head>, and <body> tags.
 
 2. Title and Stylesheet: The <title> tag sets the title of the HTML page to "Map". The <link> tag references a CSS stylesheet from a CDN (https://unpkg.com/leaflet/dist/leaflet.css) to style the map and legend.
@@ -74,6 +76,7 @@ In summary, this code sets up a Flask application with three routes: ``/map``, `
 Overall, this HTML template uses JavaScript and the Leaflet library to render a map and visualize air quality data using circle markers and a legend. The data is obtained from Flask and dynamically displayed on the map based on the pollution level.
 
 ### Visualizing the Second and Third Views
+ ![datavisualizations](https://github.com/ehsanshahrabi/Project3_Air_Quality_Index_Monitor/assets/124327258/ade1d880-9657-40a9-b8d5-6c6f0e328ce3)
  
 For visualizing the air quality data, the app.js file uses D3.js and Plotly.js libraries. It displays current air quality index and a forecast for PM2.5 maximum and minimum values.
 The following functionality is provided by the code:
@@ -95,6 +98,10 @@ The following functionality is provided by the code:
 8- Plotly.js library is used to create the plots and display them in the designated <div> elements in the HTML.
  
 In addition, the code also provides a table displaying daily AQI levels.
+ 
+### Visualizing the Fourth Views:
+ ![20mostpolluted](https://github.com/ehsanshahrabi/Project3_Air_Quality_Index_Monitor/assets/124327258/bd98ed61-fc51-41e7-9733-3e85e94bfe1f)
+In this view we have 20 most pulloted city that powered by Java Script and potly.
 
 
 
