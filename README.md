@@ -14,7 +14,9 @@ app.py: This is the Python Flask server that serves the index.html file and prov
 ### Data Collection and Cleaning
 The data was scraped from the World Air Quality Index Project using BeautifulSoup. After scraping the data, extensive cleaning was performed to ensure accuracy and uniformity. We removed any entries from the dataset that had a status other than 'ok', ensuring high quality of the data. Once cleaned, the data was saved into a JSON file aqi_data_ok_status.json, ready to be consumed by the Flask server and the front-end.
 
-## Working
+### Working
+![datavisualizations](https://github.com/ehsanshahrabi/Project3_Air_Quality_Index_Monitor/assets/124327258/0507eb77-4fc0-44ad-bd34-27f9acd313be)
+
 The application allows the user to select a city and a sorting method from the dropdown lists in the webpage. Based on the selection, two visualizations are updated. 
 
 1. **Current Air Quality Index**: A bar plot representing the current AQI values of pollutants for the selected city.
