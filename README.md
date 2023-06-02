@@ -11,8 +11,10 @@ index.html: This is the main HTML file which provides the structure of the web p
 
 app.py: This is the Python Flask server that serves the index.html file and provides an API endpoint to access the AQI data.
 
+aqi_data_ok_status.json: This JSON file contains the cleaned and filtered AQI data that was extracted from the World Air Quality Index Project using data_extract.ipynb script.
+
 ### Data Collection and Cleaning
-The data was scraped from the World Air Quality Index Project using BeautifulSoup. After scraping the data, extensive cleaning was performed to ensure accuracy and uniformity. We removed any entries from the dataset that had a status other than 'ok', ensuring high quality of the data. Once cleaned, the data was saved into a JSON file aqi_data_ok_status.json, ready to be consumed by the Flask server and the front-end.
+The data was scraped from the World Air Quality Index Project using BeautifulSoup. After scraping the data, extensive cleaning was performed to ensure accuracy and uniformity. I removed any entries from the dataset that had a status other than 'ok', ensuring high quality of the data. Once cleaned, the data was saved into a JSON file aqi_data_ok_status.json, ready to be consumed by the Flask server and the front-end.
 
 ### Working
 ![datavisualizations](https://github.com/ehsanshahrabi/Project3_Air_Quality_Index_Monitor/assets/124327258/0507eb77-4fc0-44ad-bd34-27f9acd313be)
@@ -25,4 +27,6 @@ The application allows the user to select a city and a sorting method from the d
 
 Note
 This project is for educational purposes only and does not provide real-time AQI data. For real-time data, please refer to the official AQI website or other reliable resources.
+
+### This branch and the code implementation were done by Ehsan Shahrabi. The web application showcases Ehsan's expertise and dedication in creating a functional and informative data visualization tool for the Air Quality Index.
 
