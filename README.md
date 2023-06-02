@@ -75,27 +75,27 @@ In summary, this code sets up a Flask application with three routes: ``/map``, `
 
 Overall, this HTML template uses JavaScript and the Leaflet library to render a map and visualize air quality data using circle markers and a legend. The data is obtained from Flask and dynamically displayed on the map based on the pollution level.
 
-### Visualizing the Second and Third Views
+### Visualizing the Second and Third Views (by Ehsan Shahrabi)
  ![datavisualizations](https://github.com/ehsanshahrabi/Project3_Air_Quality_Index_Monitor/assets/124327258/ade1d880-9657-40a9-b8d5-6c6f0e328ce3)
  
 For visualizing the air quality data, the app.js file uses D3.js and Plotly.js libraries. It displays current air quality index and a forecast for PM2.5 maximum and minimum values.
 The following functionality is provided by the code:
  
-1- The sortCities function sorts cities based on the selected option.
+1- The ``sortCities`` function sorts cities based on the selected option.
  
-2- The updatePlots function updates plots based on the selected city.
+2- The ``updatePlots`` function updates plots based on the selected city.
  
-3- The createView2 function creates the view for the forecast of PM2.5 maximum and minimum values.
+3- The ``createView2`` function creates the view for the forecast of PM2.5 maximum and minimum values.
  
 4- Event listeners are set up for changes in the city selection and sorting option.
  
-5- The d3.json function retrieves the air quality data from the JSON file.
+5- The ``d3.json`` function retrieves the air quality data from the JSON file.
  
 6- The retrieved data populates the dropdown menus with city options.
  
-7- The updatePlots and createView2 functions are called initially and whenever the city selection or sorting option changes.
+7- The ``updatePlots`` and ``createView2`` functions are called initially and whenever the city selection or sorting option changes.
  
-8- Plotly.js library is used to create the plots and display them in the designated <div> elements in the HTML.
+8- Plotly.js library is used to create the plots and display them in the designated ``<div>`` elements in the HTML.
  
 In addition, the code also provides a table displaying daily AQI levels.
  
